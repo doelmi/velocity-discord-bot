@@ -18,7 +18,7 @@ numeral.register('locale', process.env.APP_LOCALE, {
         billion: 'milyar',
         trillion: 'bilyar'
     },
-    ordinal : function (number) {
+    ordinal: function (number) {
         return number === 1 ? 'satu' : 'se';
     },
     currency: {
@@ -60,14 +60,14 @@ client.on('message', msg => {
                 msg.channel.send(`<@${msg.author.id}>, I love you too`);
                 break;
             case 've!covid':
-                if(joinedParams.trim().length > 0) {
+                if (joinedParams.trim().length > 0) {
                     embed = new Discord.MessageEmbed()
                     embed.setDescription(`https://indonesia-covid-19.mathdro.id/api/provinsi/`)
-                    .setTimestamp()
-                    .setFooter(`Diminta oleh ${msg.author.tag}`, msg.author.displayAvatarURL);
+                        .setTimestamp()
+                        .setFooter(`Diminta oleh ${msg.author.tag}`, msg.author.displayAvatarURL);
                     axios.get('https://indonesia-covid-19.mathdro.id/api/provinsi/').then(resp => {
                         let dataProv = resp.data.data.find(o => o.provinsi.toLowerCase().includes(joinedParams));
-                        if(!dataProv) {
+                        if (!dataProv) {
                             msg.channel.send(`_Provinsi tidak ditemukan_`);
                         } else {
                             embed.setTitle(`Covid19 Data Provinsi ${dataProv.provinsi}`)
@@ -80,9 +80,9 @@ client.on('message', msg => {
                 } else {
                     embed = new Discord.MessageEmbed()
                     embed.setTitle(`Covid19 Data Indonesia`)
-                    .setDescription(`https://indonesia-covid-19.mathdro.id/api/`)
-                    .setTimestamp()
-                    .setFooter(`Diminta oleh ${msg.author.tag}`, msg.author.displayAvatarURL);
+                        .setDescription(`https://indonesia-covid-19.mathdro.id/api/`)
+                        .setTimestamp()
+                        .setFooter(`Diminta oleh ${msg.author.tag}`, msg.author.displayAvatarURL);
                     axios.get('https://indonesia-covid-19.mathdro.id/api/').then(resp => {
                         embed.addField(`Dalam Perawatan`, `${numeral(resp.data.perawatan).format('0,0')}`)
                         embed.addField(`Sembuh`, `${numeral(resp.data.sembuh).format('0,0')}`)
@@ -95,14 +95,14 @@ client.on('message', msg => {
                 break;
             case 've!slap':
             case 've!tampol':
-                if(mentionUser.length === 0) {
+                if (mentionUser.length === 0) {
                     msg.channel.send(`_Tolong sebutkan pengguna yang ditampol (Bukan bot/role)_`);
                     break;
                 }
                 embed = new Discord.MessageEmbed()
                 embed.setTitle(`${msg.author.tag} nampol ${mentionUser[0].tag}`)
-                .setTimestamp()
-                .setFooter(`Diminta oleh ${msg.author.tag}`, msg.author.displayAvatarURL);
+                    .setTimestamp()
+                    .setFooter(`Diminta oleh ${msg.author.tag}`, msg.author.displayAvatarURL);
                 axios.get('https://api.giphy.com/v1/gifs/random?api_key=2SGCA3ZDFEkHAORpAr49jza5P1KX8l9e&tag=slap&limit=1&rating=g').then(resp => {
                     embed.setImage(`${resp.data.data.images.original.url}`);
                     msg.channel.send(embed);
@@ -110,14 +110,14 @@ client.on('message', msg => {
                 break;
             case 've!kiss':
             case 've!cium':
-                if(mentionUser.length === 0) {
+                if (mentionUser.length === 0) {
                     msg.channel.send(`_Tolong sebutkan pengguna yang dicium (Bukan bot/role)_`);
                     break;
                 }
                 embed = new Discord.MessageEmbed()
                 embed.setTitle(`${msg.author.tag} cium ${mentionUser[0].tag}`)
-                .setTimestamp()
-                .setFooter(`Diminta oleh ${msg.author.tag}`, msg.author.displayAvatarURL);
+                    .setTimestamp()
+                    .setFooter(`Diminta oleh ${msg.author.tag}`, msg.author.displayAvatarURL);
                 axios.get('https://api.giphy.com/v1/gifs/random?api_key=2SGCA3ZDFEkHAORpAr49jza5P1KX8l9e&tag=kiss&limit=1&rating=g').then(resp => {
                     embed.setImage(`${resp.data.data.images.original.url}`);
                     msg.channel.send(embed);
@@ -128,8 +128,8 @@ client.on('message', msg => {
             case 've!makan':
                 embed = new Discord.MessageEmbed()
                 embed.setTitle(`Nih makan ${msg.author.tag}!`)
-                .setTimestamp()
-                .setFooter(`Diminta oleh ${msg.author.tag}`, msg.author.displayAvatarURL);
+                    .setTimestamp()
+                    .setFooter(`Diminta oleh ${msg.author.tag}`, msg.author.displayAvatarURL);
                 axios.get('https://api.giphy.com/v1/gifs/random?api_key=2SGCA3ZDFEkHAORpAr49jza5P1KX8l9e&tag=food&limit=1&rating=g').then(resp => {
                     embed.setImage(`${resp.data.data.images.original.url}`);
                     msg.channel.send(embed);
@@ -151,22 +151,26 @@ client.on('message', msg => {
                 }
                 embed = new Discord.MessageEmbed()
                 embed.setTitle(`Cari Toko di Bisnis Kokoh : ${params[0]}`)
-                .setTimestamp()
-                .setFooter(`Diminta oleh ${msg.author.tag}`, msg.author.displayAvatarURL);
-                axios.post('https://3pl.sig.id/Api_distr_poin/data_toko_aktif_kdcustomer', { kdcustomer: params[0]}).then(resp => {
-                    if(resp.data.data.status === 'empty') {
+                    .setTimestamp()
+                    .setFooter(`Diminta oleh ${msg.author.tag}`, msg.author.displayAvatarURL);
+                axios.post('https://3pl.sig.id/Api_distr_poin/data_toko_aktif_kdcustomer', { kdcustomer: params[0] }).then(resp => {
+                    if (resp.data.data.status === 'empty') {
                         msg.channel.send(`_${resp.data.data.info}_`);
                     } else {
                         let store = resp.data.data.data[0]
                         embed.addField(`Kode Toko`, store.KD_CUSTOMER)
-                        .addField(`Nama Toko`, store.NAMA_TOKO)
-                        .addField(`Nama Pemilik Toko`, store.NM_CUSTOMER)
-                        .addField(`Alamat Toko`, store.ALAMAT_TOKO)
-                        .addField(`No Handphone`, store.NO_HANDPHONE)
-                        .addField(`Distributor 1`, `${store.DISTRIBUTOR} (${store.NOMOR_DISTRIBUTOR})`)
-                        .addField(`Distributor 2`, `${store.DISTRIBUTOR2} (${store.NOMOR_DISTRIBUTOR2})`)
-                        .addField(`Distributor 3`, `${store.DISTRIBUTOR3} (${store.NOMOR_DISTRIBUTOR3})`)
-                        .addField(`Distributor 4`, `${store.DISTRIBUTOR4} (${store.NOMOR_DISTRIBUTOR4})`)
+                            .addField(`Nama Toko`, store.NAMA_TOKO)
+                            .addField(`Nama Pemilik Toko`, store.NM_CUSTOMER)
+                            .addField(`Alamat Toko`, store.ALAMAT_TOKO)
+                            .addField(`No Handphone`, store.NO_HANDPHONE)
+                        if (store.DISTRIBUTOR)
+                            embed.addField(`Distributor 1`, `${store.DISTRIBUTOR} (${store.NOMOR_DISTRIBUTOR})`)
+                        if (store.DISTRIBUTOR2)
+                            embed.addField(`Distributor 2`, `${store.DISTRIBUTOR2} (${store.NOMOR_DISTRIBUTOR2})`)
+                        if (store.DISTRIBUTOR3)
+                            embed.addField(`Distributor 3`, `${store.DISTRIBUTOR3} (${store.NOMOR_DISTRIBUTOR3})`)
+                        if (store.DISTRIBUTOR4)
+                            embed.addField(`Distributor 4`, `${store.DISTRIBUTOR4} (${store.NOMOR_DISTRIBUTOR4})`)
                         msg.channel.send(embed);
                     }
                 });
